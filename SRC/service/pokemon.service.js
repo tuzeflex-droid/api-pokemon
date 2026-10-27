@@ -1,50 +1,37 @@
 import { knex } from '../config/knex.js';
+import pokemonrepository from '../repository/pokemon.repository.js';
 
 class pokemonService {
   async getAllPokemon() {
-    return await knex('pokemon').select('*');
+    const pokemons = await pokemonrepository.getAllPokemon();
+    return pokemons;
   }
 
   async getPokemonById(id) {
-    return await knex('pokemon')
-      .where({ id })
-      .first();
-  }
-
-  async createPokemon(dados) {
-    const pokemon = {
-      nome: dados.nome,
-      nivel: dados.nivel,
-      tipo: dados.tipo,
-      treinador_id: dados.treinador_id
-    };
-
-    await knex('pokemon').insert(pokemon);
-
+    const pokemon = await pokemonrepository.getPokemonById(id);
     return pokemon;
   }
 
-  async updatePokemon(id, dados) {
-    const quantidade = await knex('pokemon')
-      .where({ id })
-      .update(dados);
-
-    if (!quantidade) {
-      return null;
-    }
-
-    return await this.getPokemonById(id);
+  async createPokemon(dados) {
+    const pokemonCriado = await pokemonrepository.createPokemon(dados);
+    return pokemonCriado;
   }
 
-  async patchPokemon(id, dados) {
-    return await this.updatePokemon(id, dados);
+  async updatePutpokemon(id, dados) {
+    const pokemonAtualizado = await pokemonrepository.updatePutpokemon(id, dados);
+      return pokemonAtualizado;
+    }
+  
+
+  async updatePatchPokemon(id, dados) {
+    const pokemon = await pokemonrepository.updatePatchPokemon(id, dados);
+    return pokemon;
   }
 
   async deletePokemon(id) {
-    return await knex('pokemon')
-      .where({ id })
-      .del();
+    const pokemonDeletado = await pokemonrepository.deletePokemon(id);
+    return pokemonDeletado;
   }
-}
 
+}
 export default new pokemonService();

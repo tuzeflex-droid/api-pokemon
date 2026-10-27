@@ -1,60 +1,9 @@
 import { router } from 'express';
-import pokemonService from '../service/pokemon.service.js';
+import {pokemonController} from '../controller/pokemon.controller.js';
 
-const pokemonRouter = router();
-
-pokemonRouter.get('/', async (req,res) => {
-    try{
-        const pokemons = await pokemonService.getAllpokemon()
-        res.status(200).json(pokemons)
-    } catch (error) {
-    console.error(error);
-    }
-})
-
-pokemonRouter.getPokemonById('/', async (req,res) => {
-    try{
-        const pokemons = await pokemonService.getPokemonById()
-        res.status(200).json(pokemons)
-    } catch (error) {
-    console.error(error);
-    }
-})
-
-pokemonRouter.createPokemon('/', async (req,res) => {
-    try{
-        const pokemons = await pokemonService.createPokemon()
-        res.status(200).json(pokemons)
-    } catch (error) {
-    console.error(error);
-    }
-})
-
-pokemonRouter.updatePokemon('/', async (req,res) => {
-    try{
-        const pokemons = await pokemonService.updatePokemon()
-        res.status(200).json(pokemons)
-    } catch (error) {
-    console.error(error);
-    }
-})
-
-pokemonRouter.patchPokemon('/', async (req,res) => {
-    try{
-        const pokemons = await pokemonService.patchPokemon()
-        res.status(200).json(pokemons)
-    } catch (error) {
-    console.error(error);
-    }
-})
-
-pokemonRouter.deletePokemon('/', async (req,res) => {
-    try{
-        const pokemons = await pokemonService.deletePokemon()
-        res.status(200).json(pokemons)
-    } catch (error) {
-    console.error(error);
-    }
-})
-
-export default pokemonRouter;
+router.getAll('/pokemon', pokemonController.getAllpokemon);
+router.get('/pokemon/:id', pokemonController.getPokemonById);
+router.post('/pokemon', pokemonController.createPokemon);
+router.put('/pokemon/:id', pokemonController.updatePokemon);
+router.patch('/pokemon/:id', pokemonController.patchPokemon);
+router.delete('/pokemon/:id', pokemonController.deletePokemon);
